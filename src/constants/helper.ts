@@ -29,7 +29,7 @@ export let recipes = itemList
         return item
     })
 
-function union(setA: Set<string>, setB: Set<string>): Set<string> {
+let union = (setA: Set<string>, setB: Set<string>): Set<string> => {
     let _union = new Set(setA)
     for (let elem of setB) {
         _union.add(elem)
@@ -37,13 +37,21 @@ function union(setA: Set<string>, setB: Set<string>): Set<string> {
     return _union
 }
 
-function isSuperset(set: Set<string>, subset: Set<string>): boolean {
+let isSuperset = (set: Set<string>, subset: Set<string>): boolean => {
     for (let elem of subset) {
         if (!set.has(elem)) {
             return false
         }
     }
     return true
+}
+
+export let difference = (setA: Set<string>, setB: Set<string>): Set<string> => {
+    let _difference = new Set(setA)
+    for (let elem of setB) {
+        _difference.delete(elem)
+    }
+    return _difference
 }
 
 let smeltItems = new Set(["iron-plate", "steel-plate", "copper-plate", "stone-brick"])

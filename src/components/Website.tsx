@@ -1,12 +1,20 @@
-import { allItemNames, generateItemsFrom, idToName, nameToId } from "../constants/helper"
+import {
+    allItemNames,
+    generateItemsFrom,
+    idToName,
+    nameToId,
+    difference,
+} from "../constants/helper"
 import React, { useState } from "react"
 
 export default function Website(props: any) {
     let [allowSmelting, setAllowSmelting] = useState(false)
-    let [inputItems, setInputItems] = useState(Array(20).fill(""))
+    let [inputItems, setInputItems] = useState(Array(10).fill(""))
+    let [ignoreItems, setIgnoreItems] = useState(Array(10).fill(""))
 
     let inputHtml = []
-    for (let i = 0; i < 20; i++) {
+    let ignoreHtml = []
+    for (let i = 0; i < 10; i++) {
         inputHtml.push(
             <label key={`label${i}`} className={"my-1 mx-4 col-span-2"} htmlFor={`input${i}`}>
                 Input {i + 1}
@@ -28,16 +36,45 @@ export default function Website(props: any) {
                 }}
             />
         )
-    }
-    let output = Array.from(
-        generateItemsFrom(
-            inputItems.map((item) => {
-                // @ts-ignore
-                return nameToId[item]
-            }),
-            allowSmelting
+        ignoreHtml.push(
+            <label key={`ignorelabel${i}`} className={"my-1 mx-4 col-span-2"} htmlFor={`input${i}`}>
+                Input {i + 1}
+            </label>
         )
+        ignoreHtml.push(
+            <input
+                className={"bg-blue-200 rounded col-span-3"}
+                key={`ignoreinput${i}`}
+                id={`ignoreinput${i}`}
+                list={"items"}
+                value={ignoreItems[i]}
+                onChange={(e) => {
+                    setIgnoreItems([
+                        ...ignoreItems.slice(0, i),
+                        e.target.value,
+                        ...ignoreItems.slice(i + 1),
+                    ])
+                }}
+            />
+        )
+    }
+
+    let items1 = generateItemsFrom(
+        inputItems.map((item) => {
+            // @ts-ignore
+            return nameToId[item]
+        }),
+        allowSmelting
     )
+    let items2 = generateItemsFrom(
+        ignoreItems.map((item) => {
+            // @ts-ignore
+            return nameToId[item]
+        }),
+        allowSmelting
+    )
+    let differenceItems: Set<string> = difference(new Set(items1), new Set(items2))
+    let output = Array.from(differenceItems)
     output.sort()
     let outputHtml = output.map((itemName) => {
         return (
@@ -93,6 +130,10 @@ export default function Website(props: any) {
                         <label htmlFor={"allowSmelting"}>Allow smelting?</label>
                     </div>
                     <div className={"grid grid-cols-5 gap-x-2 gap-y-1"}>{inputHtml}</div>
+                    <div className={"text-xl font-bold"}>
+                        Items made from purely these ingedients should be ignored
+                    </div>
+                    <div className={"grid grid-cols-5 gap-x-2 gap-y-1"}>{ignoreHtml}</div>
                 </div>
                 <div>
                     <div className={"text-xl font-bold"}>
