@@ -20,7 +20,6 @@ export default function Website(props: any) {
                 list={"items"}
                 value={inputItems[i]}
                 onChange={(e) => {
-                    console.log(e.target.value)
                     setInputItems([
                         ...inputItems.slice(0, i),
                         e.target.value,
