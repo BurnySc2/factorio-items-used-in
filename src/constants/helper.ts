@@ -21,6 +21,16 @@ _recipes.forEach((item) => {
     nameToId[item.localized_name.en] = item.name
 })
 
+let smeltItemsArray: string[] = []
+_recipes.forEach((recipe) => {
+    if (recipe.category === "smelting") {
+        smeltItemsArray.push(recipe.name)
+    }
+})
+
+let smeltItems = new Set(smeltItemsArray)
+// let smeltItems = new Set(["iron-plate", "steel-plate", "copper-plate", "stone-brick"])
+
 export let recipes = _recipes
     .map((item) => {
         let ingredients = new Set()
@@ -60,8 +70,6 @@ export let difference = (setA: Set<string>, setB: Set<string>): Set<string> => {
     }
     return _difference
 }
-
-let smeltItems = new Set(["iron-plate", "steel-plate", "copper-plate", "stone-brick"])
 
 export let generateItemsFrom = (availableItems: string[], allowSmelting = false): string[] => {
     let availableItemsSet = new Set(availableItems)
