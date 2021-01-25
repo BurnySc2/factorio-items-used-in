@@ -29,7 +29,9 @@ export default function Website(props: any) {
             />
         )
     }
-    let outputHtml = Array.from(generateItemsFrom(inputItems, allowSmelting)).map((itemName) => {
+    let output = Array.from(generateItemsFrom(inputItems, allowSmelting))
+    output.sort()
+    let outputHtml = output.map((itemName) => {
         return (
             <div className={"bg-blue-200 rounded my-2"} key={itemName}>
                 {itemName}

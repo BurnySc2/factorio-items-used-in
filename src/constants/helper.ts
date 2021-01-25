@@ -19,6 +19,14 @@ export let recipes = itemList
         return item
     })
 
+function union(setA: Set<string>, setB: Set<string>): Set<string> {
+    let _union = new Set(setA)
+    for (let elem of setB) {
+        _union.add(elem)
+    }
+    return _union
+}
+
 function isSuperset(set: Set<string>, subset: Set<string>): boolean {
     for (let elem of subset) {
         if (!set.has(elem)) {
@@ -38,6 +46,8 @@ export let generateItemsFrom = (availableItems: string[], allowSmelting = false)
     while (iteration === 0 || newItems.size !== oldLength) {
         iteration += 1
         oldLength = newItems.size
+        availableItemsSet = union(availableItemsSet, newItems)
+        // eslint-disable-next-line no-loop-func
         recipes.forEach((item) => {
             // @ts-ignore
             let key: string = Object.keys(item)[0]
