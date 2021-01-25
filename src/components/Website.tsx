@@ -52,7 +52,7 @@ export default function Website(props: any) {
                     className={"text-center text-lg font-bold hover:bg-blue-300 rounded"}
                     target="_blank"
                     rel="noreferrer"
-                    href="https://github.com/BurnySc2/Factorio-Train-Station-Blueprint-Creator"
+                    href="https://github.com/BurnySc2/factorio-items-used-in"
                 >
                     Source code
                 </a>
