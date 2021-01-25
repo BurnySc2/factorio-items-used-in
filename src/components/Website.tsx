@@ -1,4 +1,4 @@
-import { allItemNames, generateItemsFrom } from "../constants/helper"
+import { allItemNames, generateItemsFrom, idToName, nameToId } from "../constants/helper"
 import React, { useState } from "react"
 
 export default function Website(props: any) {
@@ -20,6 +20,7 @@ export default function Website(props: any) {
                 list={"items"}
                 value={inputItems[i]}
                 onChange={(e) => {
+                    console.log(e.target.value)
                     setInputItems([
                         ...inputItems.slice(0, i),
                         e.target.value,
@@ -29,12 +30,23 @@ export default function Website(props: any) {
             />
         )
     }
-    let output = Array.from(generateItemsFrom(inputItems, allowSmelting))
+    let output = Array.from(
+        generateItemsFrom(
+            inputItems.map((item) => {
+                // @ts-ignore
+                return nameToId[item]
+            }),
+            allowSmelting
+        )
+    )
     output.sort()
     let outputHtml = output.map((itemName) => {
         return (
             <div className={"bg-blue-200 rounded my-2"} key={itemName}>
-                {itemName}
+                {
+                    // @ts-ignore
+                    idToName[itemName]
+                }
             </div>
         )
     })
@@ -42,7 +54,15 @@ export default function Website(props: any) {
     let datalist = (
         <datalist id={"items"}>
             {allItemNames.map((item) => {
-                return <option key={item} value={item} />
+                return (
+                    <option
+                        key={item}
+                        value={
+                            // @ts-ignore
+                            idToName[item]
+                        }
+                    />
+                )
             })}
         </datalist>
     )

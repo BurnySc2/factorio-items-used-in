@@ -3,6 +3,16 @@ import itemList from "./itemlist.json"
 export let allItemNames = itemList.map((item) => {
     return item.id
 })
+export let idToName = {}
+itemList.forEach((item) => {
+    // @ts-ignore
+    idToName[item.id] = item.name
+})
+export let nameToId = {}
+itemList.forEach((item) => {
+    // @ts-ignore
+    nameToId[item.name] = item.id
+})
 
 export let recipes = itemList
     .map((item) => {
