@@ -1,27 +1,34 @@
+// From: https://github.com/KirkMcDonald/kirkmcdonald.github.io/blob/master/data/vanilla-1.0.0.json
 import itemList from "./itemlist.json"
+let _recipes: any[] = []
+Object.keys(itemList.recipes).forEach((key) => {
+    // @ts-ignore
+    let value = itemList.recipes[key]
+    _recipes.push(value)
+})
 
-export let allItemNames = itemList.map((item) => {
-    return item.id
+export let allItemNames = _recipes.map((item) => {
+    return item.name
 })
 export let idToName = {}
-itemList.forEach((item) => {
+_recipes.forEach((item) => {
     // @ts-ignore
-    idToName[item.id] = item.name
+    idToName[item.name] = item.localized_name.en
 })
 export let nameToId = {}
-itemList.forEach((item) => {
+_recipes.forEach((item) => {
     // @ts-ignore
-    nameToId[item.name] = item.id
+    nameToId[item.localized_name.en] = item.name
 })
 
-export let recipes = itemList
+export let recipes = _recipes
     .map((item) => {
         let ingredients = new Set()
-        if (item.recipe.ingredients.length > 0) {
-            item.recipe.ingredients.forEach((ingredient) => {
-                ingredients.add(ingredient.id)
+        if (item.ingredients.length > 0) {
+            item.ingredients.forEach((ingredient: { name: unknown }) => {
+                ingredients.add(ingredient.name)
             })
-            return { [item.id]: ingredients }
+            return { [item.name]: ingredients }
         }
         return null
     })

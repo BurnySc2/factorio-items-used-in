@@ -12,6 +12,10 @@ export default function Website(props: any) {
     let [inputItems, setInputItems] = useState(Array(10).fill(""))
     let [ignoreItems, setIgnoreItems] = useState(Array(10).fill(""))
 
+    // console.log(allItemNames)
+    // console.log(idToName)
+    // console.log(nameToId)
+    // console.log(recipes)
     let inputHtml = []
     let ignoreHtml = []
     for (let i = 0; i < 10; i++) {
